@@ -9,17 +9,22 @@ using webapi.Entities;
 
 namespace webapi.Controllers
 {
-    [Route("api/feature")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FeaturesController : ControllerBase
     {
-        //private Feature featuremodel;
-
         private readonly FeatureContext context;
 
         public FeaturesController(FeatureContext context)
         {
             this.context = context;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Feature>> List()
+        {
+            var features = context.Features;
+            return features;
         }
 
         [HttpPost("save")]
@@ -32,14 +37,19 @@ namespace webapi.Controllers
             }
             var feature = new Feature
             {
+                Id = request.Id,
                 Name = request.Name,
                 InpDate = DateTime.Parse(request.InpDate)
             };
 
+            // Addした段階ではSql文はDBに発行されない
             this.context.Features.Add(feature);
+
+            // SaveChangesが呼び出された段階で初めてInsert文が発行される
             this.context.SaveChanges();
 
-            //featuremodel.InsertFeature();
+            // EntityFlameworkを使うとSQL文を書く必要はない
+
 
             return Ok(new { success = true });
         }

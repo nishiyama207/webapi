@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using webapi.Data;
 using webapi.Entities;
 
@@ -14,7 +13,7 @@ namespace webapi.Controllers
     [ApiController]
     public class FeaturesController : ControllerBase
     {
-        private Feature featuremodel;
+        //private Feature featuremodel;
 
         private readonly FeatureContext context;
 
@@ -26,8 +25,7 @@ namespace webapi.Controllers
         [HttpPost("save")]
         public IActionResult SaveFeature(FeatureRequest request)
         {
-            featuremodel.InsertFeature();
-        
+                    
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -40,6 +38,8 @@ namespace webapi.Controllers
 
             this.context.Features.Add(feature);
             this.context.SaveChanges();
+
+            //featuremodel.InsertFeature();
 
             return Ok(new { success = true });
         }

@@ -10,13 +10,19 @@ namespace webapi.Entities
     public class Feature
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public DateTime InpDate { get; set; }
 
         public string connectionString = "Server=localhost;Database=postgres;User ID=postgres;Password=postgres;";
 
         public bool InsertFeature()
         {
+            Feature feature = new Feature();
+            feature.Id = Id;
+            feature.Name = Name;
+            feature.InpDate = InpDate;
+
+
             using (var connection = new SqlConnection(connectionString))
             using (var command = connection.CreateCommand())
             {
